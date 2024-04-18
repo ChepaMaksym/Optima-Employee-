@@ -1,0 +1,80 @@
+﻿<Window x:Class="Optima_Employee_.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Optima_Employee_"
+        mc:Ignorable="d" FontSize="20" WindowStartupLocation="CenterScreen"
+        Title="ShellView" Height="450" Width="1000"
+        Name="shell">
+    <Window.Resources>
+        <local:DismissalDateToColorConverter x:Key="DismissalDateToColorConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" CommandParameter="{x:Reference Name=shell}" Command="{Binding CreateWindowCommand}">Добавить</Button>
+            <Button Grid.Column="1" CommandParameter="{x:Reference Name=shell}" Command="{Binding EditWindowCommand}">Редактировать</Button>
+            <Button Grid.Column="2" CommandParameter="{x:Reference Name=shell}" Command="{Binding DeleteEmployeesCommand}">Удалить всех</Button>
+            <Button Grid.Column="3" Command="{Binding FindEmployeeCommand}">Найти</Button>
+            <Button Grid.Column="4" Command="{Binding FireEmployeeCommand}">Уволить</Button>
+            <Button Grid.Column="5" x:Name="Statistic">Статистика</Button>
+            <Button Grid.Column="6" Command="{Binding ImportEmployeeCommand}">Импорт</Button>
+            <Button Grid.Column="7" Command="{Binding ExportEmployeeCommand}">Экспорт</Button>
+        </Grid>
+        <DataGrid x:Name="ShowEmployees" SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}" 
+                 IsReadOnly="True" CanUserAddRows="True" AutoGenerateColumns="False" 
+                  Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Margin="0,0,0,10">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontSize" Value="14"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding DismissalDate, Converter={StaticResource DismissalDateToColorConverter}}" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="100"/>
+                <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="115"/>
+                <DataGridTextColumn Header="Дата Рождения" Binding="{Binding DateOfBirth, StringFormat=d}" Width="100"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="130"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position}" Width="100"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="100"/>
+                <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}" Width="75"/>
+                <DataGridTextColumn Header="Дата Принятия" Binding="{Binding HiringDate, StringFormat=d}" Width="100"/>
+                <DataGridTextColumn Header="Дата Увольнения" Binding="{Binding DismissalDate, StringFormat=d}" Width="100">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="{Binding DismissalDate, Converter={StaticResource DismissalDateToColorConverter}}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
